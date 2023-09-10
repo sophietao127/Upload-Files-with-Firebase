@@ -8,7 +8,7 @@ function App() {
   const [imageUpload, setImageUpload] = useState(null);
   const [imageList, setImageList] = useState([])
 
-  const imageListRef = ref(storage, "images/")
+  // const imageListRef = ref(storage, "images/")
   const uploadImage = () => {
     if (imageUpload == null) return;
     const imageRef = ref(storage, `images/${imageUpload.name + v4()}`)
@@ -21,7 +21,9 @@ function App() {
   };
 
   useEffect(() => {
+    const imageListRef = ref(storage, "images/")
     listAll(imageListRef).then((response) => {
+      console.log(response)
       response.items.forEach((item) => {
         getDownloadURL(item).then((url) => {
           setImageList((prev) => [...prev, url])
@@ -36,6 +38,7 @@ function App() {
       <button onClick={uploadImage}>Upload image</button>
 
       {imageList.map((url, i) => {
+        console.log(i)
         return <img src={url} alt='' key={i}/>
       })}
     </div>
